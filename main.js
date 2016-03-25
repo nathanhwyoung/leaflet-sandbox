@@ -81,3 +81,31 @@ var popup = L.popup()
 
 // Here we use openOn instead of addTo because it handles automatic closing of a
 // previously opened popup when opening a new one which is good for usability.
+
+// Every time something happens in Leaflet, e.g. user clicks on a marker or map zoom
+// changes, the corresponding object sends an event which you can subscribe to with a
+// function. It allows you to react to user interaction:
+
+function onMapClick(e) {
+    alert("You clicked the map at " + e.latlng);
+}
+
+mymap.on('click', onMapClick);
+
+// Each object has its own set of events — see documentation for details. The first
+// argument of the listener function is an event object — it contains useful
+// information about the event that happened. For example, map click event object
+// (e in the example above) has latlng property which is a location at which the click occured.
+//
+// Let’s improve our example by using a popup instead of an alert:
+
+var popup = L.popup();
+
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(mymap);
+}
+
+mymap.on('click', onMapClick);
